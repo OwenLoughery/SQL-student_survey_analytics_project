@@ -32,12 +32,19 @@ The application generates multiple analytical views, including:
 - Time-series trends showing how average stress and workload change over the quarter
 - Category-based analysis, such as how career outlook varies with enjoyment of computer science
 
-### Example Visualizations
+## Example Visualizations
 
-- Average response scores by survey category  
-- Response range comparison across questions  
-- Stress vs. workload trends over time  
-- Career outlook grouped by CS enjoyment level  
+### Average Survey Responses
+![Average survey responses](docs/screenshots/average-responses.png)
+
+### Response Range Across Questions
+![Response range](docs/screenshots/response-range.png)
+
+### Stress & Workload Over Time
+![Stress and workload over time](docs/screenshots/stress-workload-over-time.png)
+
+### Career Outlook vs CS Enjoyment
+![Career outlook vs CS enjoyment](docs/screenshots/career-vs-love.png)
 
 ---
 
