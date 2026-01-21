@@ -1,0 +1,57 @@
+﻿@model List<WebApplication3.Models.DailyStats>
+<h2>Average Stress & Workload Over Time</h2>
+<canvas id="dailyChart" width="800" height="400"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const labels = @Html.Raw(Json.Serialize(Model.Select(m => m.ResponseDate.ToString("yyyy-MM-dd"))));
+    const stress = @Html.Raw(Json.Serialize(Model.Select(m => m.AvgStress)));
+    const workload = @Html.Raw(Json.Serialize(Model.Select(m => m.AvgWorkLoad)));
+
+        new Chart(document.getElementById('dailyChart'), {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Avg Stress',
+                    data: stress,
+                    borderColor: 'blue',
+                    borderWidth: 2,
+                    fill: false
+                },
+                {
+                    label: 'Avg Workload',
+                    data: workload,
+                    borderColor: 'orange',
+                    borderWidth: 2,
+                    fill: false
+                }
+            ]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    display: true
+                },
+                
+            },
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Date'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Average Score'
+                    },
+                    
+                }
+            }
+        }
+    });
+
+</script>
