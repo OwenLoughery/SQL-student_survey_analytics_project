@@ -1,0 +1,42 @@
+﻿@model List<WebApplication3.Models.LoveCareer>
+
+<h2>Career Outlook by CS Enjoyment (Love)</h2>
+<canvas id="loveCareerChart" width="800" height="400"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const labels = @Html.Raw(Json.Serialize(Model.Select(m => m.Love)));
+    const data = @Html.Raw(Json.Serialize(Model.Select(m => m.AvgCareer)));
+
+        new Chart(document.getElementById('loveCareerChart'), {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Avg Career Score',
+                data: data,
+                backgroundColor: 'teal',
+                borderColor: 'black',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    display: true
+                },
+                
+            },
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Love Score (Enjoyment of CS)'
+                    }
+                },
+                
+            }
+        }
+    });
+
+</script>

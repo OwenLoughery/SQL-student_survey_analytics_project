@@ -1,0 +1,68 @@
+﻿<div class="text-center">  
+ <h1 class="display-4">Response Range</h1>  
+ <canvas id="chartCanvas" width="400" height="200"></canvas>  
+</div>  
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>  
+<script>  
+ document.addEventListener('DOMContentLoaded', function() {  
+     fetch('/Home/GetChartData')  
+         .then(response => response.json())  
+         .then(data => {  
+               console.log(data);
+               const labels = []; // Initialize labels array
+               const values = []; // Initialize values array
+
+               if (data.success && Array.isArray(data.data)){
+
+                   data.data.forEach(row => {
+                     labels.push(row.questionName);
+                     values.push(row.rangeValue);
+
+                   });
+                   console.log(labels);
+                   console.log(values);
+               }
+               else{
+                   console.error('Invalid data format:', data);
+               }
+              
+
+
+             const ctx = document.getElementById('chartCanvas').getContext('2d');  
+             new Chart(ctx, {  
+                type: 'bar', // You can change this to 'line', 'pie', etc.  
+                data: {  
+                    labels: labels, // X-axis labels  
+                    datasets: [{  
+                        label: 'Range Values',  
+                        data: values, // Y-axis data  
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',  
+                        borderColor: 'rgba(75, 192, 192, 1)',  
+                        borderWidth: 1  
+                    }]  
+                },  
+                options: {  
+                    responsive: true,  
+                    plugins: {  
+                        legend: {  
+                            position: 'top',  
+                        },  
+                        title: {  
+                            display: true,  
+                            text: 'Response value range'  
+                        }  
+                    },  
+                    scales: {  
+                        y: {  
+                            beginAtZero: true  
+                        }  
+                    }  
+                }  
+             });
+         })  
+         .catch(error => {  
+             console.error('Error:', error);  
+         });  
+ });  
+</script>

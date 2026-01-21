@@ -1,0 +1,115 @@
+﻿<div class="text-center">
+    <h1 class="display-4">Average</h1>
+    <canvas id="chartCanvas" width="400" height="200"></canvas>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>  
+document.addEventListener('DOMContentLoaded', function() 
+{  
+   fetch('/Home/GetAverageData')  
+       .then(response => response.json())  
+       .then(data => 
+        {  
+             console.log("here");
+             console.log(data);
+             const labels = []; // Initialize labels array
+             const values = []; // Initialize values array
+
+             
+
+             if (data && data.success)
+             {
+                    console.log("here2");
+                    if (data && data.success) 
+                    {
+                        // Debugging statements
+                        console.log("Data received:", data);
+
+                            console.log("Average feel is: ",data.data.avgFeel);
+
+                        // Dynamically map labels and values directly from the data object
+                        const fields = [
+                                { label: "Feel", value: data.data.avgFeel },
+                                { label: "Workload", value: data.data.avgWorkload },
+                                { label: "Stress", value: data.data.avgStress },
+                                { label: "Current", value: data.data.avgCurrent },
+                                { label: "Career", value: data.data.avgCareer },
+                                { label: "Love", value: data.data.avgLove }
+                        ];
+
+
+                        fields.forEach(field => 
+                        {
+                            console.log(`Field Label: ${field.label}, Field Value: ${field.value}`);
+                        });
+
+                    
+                        fields.forEach(field => {
+                        if (field.value !== null && field.value !== undefined) 
+                            {
+                                console.log(field.label);
+                                console.log(field.value);
+                                labels.push(field.label);
+                                values.push(parseFloat(field.value.toFixed(2))); // Ensure float values are formatted to 2 decimal places
+                            }
+                        });
+
+                        console.log(labels);
+                        console.log(values);
+                    } 
+                    else 
+                    {
+                        console.log("here3");
+                        console.error('Invalid data format:', data);
+                    }
+             }
+                              
+
+            
+             const ctx = document.getElementById('chartCanvas').getContext('2d');  
+               new Chart(ctx, 
+               {  
+                  type: 'bar', // You can change this to 'line', 'pie', etc.  
+                  data: 
+                  {  
+                      labels: labels, // X-axis labels  
+                      datasets: 
+                      [{  
+                          label: 'Range Values',  
+                          data: values, // Y-axis data  
+                          backgroundColor: 'rgba(75, 192, 192, 0.2)',  
+                          borderColor: 'rgba(75, 192, 192, 1)',  
+                          borderWidth: 1  
+                      }]  
+                  },  
+                  options: 
+                  {  
+                      responsive: true,  
+                      plugins: 
+                      {  
+                          legend: 
+                          {  
+                              position: 'top',  
+                          },  
+                          title: 
+                          {  
+                              display: true,  
+                              text: 'Response value range'  
+                          }  
+                      },  
+                      scales: 
+                      {  
+                          y: 
+                          {  
+                              beginAtZero: true,  
+                              max: 5 // Set the maximum value for the Y-axis to match the range of 1 to 5  
+                          }  
+                      }  
+                  }  
+               });
+        })  
+        .catch(error => {  
+            console.error('Error:', error);  
+        });  
+});  
+</script>
